@@ -1,0 +1,15 @@
+projects:
+  - name: LLMind
+    path: /path/to/LLMind
+    default_agent: my-agent
+    tags:
+      - go
+      - tui
+
+agents:
+  - name: my-agent
+    provider: provider-name
+    command: agent-cmd
+    models:
+      - model-a
+      - model-b
