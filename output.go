@@ -15,6 +15,7 @@ func PrintHelp() {
 	fmt.Println("Usage:")
 	fmt.Println("  llmind init")
 	fmt.Println("  llmind list")
+	fmt.Println("  llmind tui")
 	fmt.Println("  llmind project add <name> <path>")
 	fmt.Println("  llmind agent add <name> <provider> <command> <models>")
 	fmt.Println("  llmind help")

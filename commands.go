@@ -163,4 +163,24 @@ func HandleAgentCommand(args []string) {
 		fmt.Println("Unknown agent command:", args[0])
 		fmt.Println("Usage: llmind agent add <name> <provider> <command> <models>")
 	}
+
+}
+func HandleTUI() {
+	configPath, err := GetDefaultConfigPath()
+	if err != nil {
+		fmt.Println("Error getting config path:", err)
+		return
+	}
+
+	config, err := LoadConfig(configPath)
+	if err != nil {
+		fmt.Println("Error loading config:", err)
+		return
+	}
+
+	err = RunTUI(config)
+	if err != nil {
+		fmt.Println("Error running TUI:", err)
+		return
+	}
 }

@@ -28,6 +28,9 @@ func main() {
 	case "agent":
 		HandleAgentCommand(os.Args[2:])
 
+	case "tui":
+		HandleTUI()
+
 	case "help":
 		PrintHelp()
 
