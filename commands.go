@@ -105,6 +105,49 @@ func HandleProjectCommand(args []string) {
 		fmt.Println("Unknown project command:", args[0])
 		fmt.Println("Usage: llmind project add <name> <path>")
 	}
+	switch args[0] {
+	case "add":
+		// lo que ya tenés
+
+	case "link-agent":
+		if len(args) < 4 {
+			fmt.Println("Usage: llmind project link-agent <project-name> <agent-name> <default-model>")
+			return
+		}
+
+		projectName := args[1]
+		agentName := args[2]
+		defaultModel := args[3]
+
+		configPath, err := GetDefaultConfigPath()
+		if err != nil {
+			fmt.Println("Error getting config path:", err)
+			return
+		}
+
+		config, err := LoadConfig(configPath)
+		if err != nil {
+			fmt.Println("Error loading config:", err)
+			return
+		}
+
+		config, err = LinkAgentToProject(config, projectName, agentName, defaultModel)
+		if err != nil {
+			fmt.Println("Error linking agent:", err)
+			return
+		}
+
+		err = SaveConfig(configPath, config)
+		if err != nil {
+			fmt.Println("Error saving config:", err)
+			return
+		}
+
+		fmt.Println("Agent linked to project:", agentName, "->", projectName)
+
+	default:
+		// unknown command
+	}
 }
 
 func HandleAgentCommand(args []string) {

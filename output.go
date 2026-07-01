@@ -38,6 +38,19 @@ func PrintConfig(config Config) {
 			fmt.Println("  default agent:", project.DefaultAgent)
 			fmt.Println("  tags:", strings.Join(project.Tags, ", "))
 			fmt.Printf("  status: %s\n", ValidateProject(project))
+			fmt.Println("  linked agents:")
+			if len(project.Agents) == 0 {
+				fmt.Println("    none")
+			} else {
+				for _, linkedAgent := range project.Agents {
+					fmt.Printf(
+						"    - %s model=%s enabled=%t\n",
+						linkedAgent.AgentName,
+						linkedAgent.DefaultModel,
+						linkedAgent.Enabled,
+					)
+				}
+			}
 		}
 	}
 

@@ -20,13 +20,22 @@ func RunTUI(config Config) error {
 	workspaceView.SetTitle(" Workspace ")
 	workspaceView.SetDynamicColors(true)
 	workspaceView.SetWrap(true)
+	workspaceView.SetScrollable(true)
 
 	logView := tview.NewTextView()
 	logView.SetBorder(true)
 	logView.SetTitle(" Logs ")
 	logView.SetDynamicColors(true)
 	logView.SetWrap(true)
+	logView.SetScrollable(true)
 
+	focusables := []tview.Primitive{
+		projectList,
+		workspaceView,
+		logView,
+	}
+
+	focusIndex := 0
 	if len(config.Project) == 0 {
 		projectList.AddItem("No projects configured", "", 0, nil)
 		workspaceView.SetText("No project selected.")
@@ -54,7 +63,11 @@ func RunTUI(config Config) error {
 		}
 	})
 
-	logView.SetText("Select a project to inspect logs.\n\nq: quit")
+	projectList.SetChangedFunc(func(index int, mainText string, secondaryText string, shortcut rune) {
+		if index >= 0 && index < len(config.Project) {
+			renderProjectWorkspace(workspaceView, logView, config, config.Project[index])
+		}
+	})
 
 	layout := tview.NewFlex().
 		AddItem(projectList, 0, 1, true).
@@ -62,8 +75,20 @@ func RunTUI(config Config) error {
 		AddItem(logView, 0, 2, false)
 
 	app.SetRoot(layout, true)
+	app.SetFocus(projectList)
 
 	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyTab:
+			focusIndex = (focusIndex + 1) % len(focusables)
+			app.SetFocus(focusables[focusIndex])
+			return nil
+
+		case tcell.KeyEsc:
+			app.Stop()
+			return nil
+		}
+
 		if event.Rune() == 'q' {
 			app.Stop()
 			return nil
@@ -87,21 +112,16 @@ func renderProjectWorkspace(workspaceView *tview.TextView, logView *tview.TextVi
 	fmt.Fprintln(workspaceView)
 	fmt.Fprintln(workspaceView, "[green]Agents:[white]")
 
-	if len(config.Agent) == 0 {
-		fmt.Fprintln(workspaceView, "No agents configured.")
+	if len(project.Agents) == 0 {
+		fmt.Fprintln(workspaceView, "No agents linked to this project.")
 	} else {
-		for _, agent := range config.Agent {
-			models := strings.Join(agent.Models, ", ")
-			status := ValidateAgent(agent)
-
+		for _, linkedAgent := range project.Agents {
 			fmt.Fprintf(
 				workspaceView,
-				"- %s [%s] command=%s models=%s status=%s\n",
-				agent.Name,
-				agent.Provider,
-				agent.Command,
-				models,
-				status,
+				"- %s model=%s enabled=%t\n",
+				linkedAgent.AgentName,
+				linkedAgent.DefaultModel,
+				linkedAgent.Enabled,
 			)
 		}
 	}

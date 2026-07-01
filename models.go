@@ -6,10 +6,11 @@ type Config struct {
 }
 
 type Project struct {
-	Name         string   `json:"name"`
-	Path         string   `json:"path"`
-	DefaultAgent string   `json:"default_agent"`
-	Tags         []string `json:"tags"`
+	Name         string         `json:"name"`
+	Path         string         `json:"path"`
+	DefaultAgent string         `json:"default_agent"`
+	Tags         []string       `json:"tags"`
+	Agents       []ProjectAgent `json:"agents"`
 }
 
 type Agent struct {
@@ -17,4 +18,10 @@ type Agent struct {
 	Provider string   `json:"provider"`
 	Command  string   `json:"command"`
 	Models   []string `json:"models"`
+}
+
+type ProjectAgent struct {
+	AgentName    string `json:"agent_name"`
+	DefaultModel string `json:"default_model"`
+	Enabled      bool   `json:"enabled"`
 }
