@@ -4,7 +4,7 @@
 
 It provides a lightweight control layer to organize AI/LLM command-line tools and connect them to specific development projects.
 
-Configuration is stored locally in YAML, and LLMind validates project paths and agent commands before using them.
+Configuration is stored locally in json, and LLMind validates project paths and agent commands before using them.
 
 ---
 
@@ -15,7 +15,7 @@ Configuration is stored locally in YAML, and LLMind validates project paths and 
 - Manage local projects by name and path.
 - Register LLM agents with provider, command, and models.
 - Validate project paths and commands available in `PATH`.
-- Store configuration in a human-readable YAML file.
+- Store configuration in a human-readable json file.
 - List projects and agents from the terminal.
 
 ---
@@ -23,12 +23,12 @@ Configuration is stored locally in YAML, and LLMind validates project paths and 
 ## Key features
 
 - Initialize a local configuration directory in `~/.llmind`
-- Save settings in `~/.llmind/config.yaml`
+- Save settings in `~/.llmind/config.json`
 - Add local projects with name and path
 - Add LLM agents with provider, command, and models
 - Validate existing project paths
 - Validate agent commands in the system `PATH`
-- Keep configuration editable in YAML
+- Keep configuration editable in json
 - List configured projects and agents
 
 ---
@@ -78,14 +78,14 @@ This creates the local configuration structure:
 
 ```text
 ~/.llmind/
-├── config.yaml
+├── config.json
 ├── logs/
 └── tasks/
 ```
 
 Initial config example:
 
-```yaml
+```json
 projects: []
 agents: []
 ```
@@ -102,9 +102,9 @@ Example:
 go run . project add LLMind /path/to/LLMind
 ```
 
-This entry is stored in `~/.llmind/config.yaml` as:
+This entry is stored in `~/.llmind/config.json` as:
 
-```yaml
+```json
 projects:
   - name: LLMind
     path: /path/to/LLMind
@@ -127,9 +127,9 @@ go run . agent add my-agent provider-name agent-cmd model-a,model-b
 
 This registers an agent and checks that the command exists in the current `PATH`.
 
-Example YAML:
+Example json:
 
-```yaml
+```json
 agents:
   - name: my-agent
     provider: provider-name
@@ -173,12 +173,12 @@ Agents:
 The main configuration file is stored at:
 
 ```text
-~/.llmind/config.yaml
+~/.llmind/config.json
 ```
 
 Full example:
 
-```yaml
+```json
 projects:
   - name: LLMind
     path: /path/to/LLMind
@@ -211,7 +211,7 @@ LLMind/
 ├── project.go
 ├── validate.go
 ├── examples/
-│   └── config.yaml
+│   └── config.json
 └── README.md
 ```
 
@@ -230,7 +230,7 @@ LLMind/
 
 - This repository is designed as a local control tool for developers.
 - Keep configuration readable and easy to edit.
-- Prefer using LLMind commands rather than editing YAML manually.
+- Prefer using LLMind commands rather than editing json manually.
 
 ---
 
@@ -255,8 +255,8 @@ Principles:
 
 ```go
 type Config struct {
-    Projects []Project `yaml:"projects"`
-    Agents   []Agent   `yaml:"agents"`
+    Projects []Project `json:"projects"`
+    Agents   []Agent   `json:"agents"`
 }
 ```
 
@@ -264,10 +264,10 @@ type Config struct {
 
 ```go
 type Project struct {
-    Name         string   `yaml:"name"`
-    Path         string   `yaml:"path"`
-    DefaultAgent string   `yaml:"default_agent"`
-    Tags         []string `yaml:"tags"`
+    Name         string   `json:"name"`
+    Path         string   `json:"path"`
+    DefaultAgent string   `json:"default_agent"`
+    Tags         []string `json:"tags"`
 }
 ```
 
@@ -275,9 +275,9 @@ type Project struct {
 
 ```go
 type Agent struct {
-    Name     string   `yaml:"name"`
-    Provider string   `yaml:"provider"`
-    Command  string   `yaml:"command"`
-    Models   []string `yaml:"models"`
+    Name     string   `json:"name"`
+    Provider string   `json:"provider"`
+    Command  string   `json:"command"`
+    Models   []string `json:"models"`
 }
 ```

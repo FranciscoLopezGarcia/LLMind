@@ -1,20 +1,20 @@
 package main
 
 type Config struct {
-	Projects []Project `yaml:"projects"`
-	Agents   []Agent   `yaml:"agents"`
+	Projects []Project `json:"projects"`
+	Agents   []Agent   `json:"agents"`
 }
 
 type Project struct {
-	Name         string   `yaml:"name"`
-	Path         string   `yaml:"path"`
-	DefaultAgent string   `yaml:"default_agent"`
-	Tags         []string `yaml:"tags"`
+	Name         string   `json:"name"`
+	Path         string   `json:"path"`
+	DefaultAgent string   `json:"default_agent"`
+	Tags         []string `json:"tags"`
 }
 
 type Agent struct {
-	Name     string   `yaml:"name"`
-	Provider string   `yaml:"provider"`
-	Command  string   `yaml:"command"`
-	Models   []string `yaml:"models"`
+	Name     string   `json:"name"`
+	Provider string   `json:"provider"`
+	Command  string   `json:"command"`
+	Models   []string `json:"models"`
 }
