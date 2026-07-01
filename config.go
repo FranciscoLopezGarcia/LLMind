@@ -61,7 +61,7 @@ func CreateLLMindDirs() error {
 		return err
 	}
 
-	if err := os.MkdirAll(filepath.Join(llmindDir, "projects"), 0755); err != nil {
+	if err := os.MkdirAll(filepath.Join(llmindDir, "project"), 0755); err != nil {
 		return err
 	}
 
@@ -85,8 +85,8 @@ func CreateDefaultConfigFile() error {
 	}
 
 	defaultConfig := Config{
-		Projects: []Project{},
-		Agents:   []Agent{},
+		Project: []Project{},
+		Agent:   []Agent{},
 	}
 
 	data, err := json.MarshalIndent(defaultConfig, "", "  ")

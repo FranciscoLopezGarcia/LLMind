@@ -26,7 +26,7 @@ func ValidateProject(project Project) string {
 	return "ok"
 }
 
-func ValidateAgents(agent Agent) string {
+func ValidateAgent(agent Agent) string {
 	if agent.Command == "" {
 		return "Agent command is empty"
 	}

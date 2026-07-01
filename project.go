@@ -1,8 +1,6 @@
 package main
 
-import (
-	"errors"
-)
+import "errors"
 
 func AddProject(config Config, project Project) (Config, error) {
 	if project.Name == "" {
@@ -18,13 +16,13 @@ func AddProject(config Config, project Project) (Config, error) {
 		return config, errors.New(status)
 	}
 
-	for _, existingProject := range config.Projects {
+	for _, existingProject := range config.Project {
 		if existingProject.Name == project.Name {
 			return config, errors.New("project already exists: " + project.Name)
 		}
 	}
 
-	config.Projects = append(config.Projects, project)
+	config.Project = append(config.Project, project)
 
 	return config, nil
 }

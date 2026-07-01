@@ -19,18 +19,18 @@ func AddAgent(config Config, agent Agent) (Config, error) {
 		return config, errors.New("agent models are empty")
 	}
 
-	status := ValidateAgents(agent)
+	status := ValidateAgent(agent)
 	if status != "ok" {
 		return config, errors.New(status)
 	}
 
-	for _, existingAgent := range config.Agents {
+	for _, existingAgent := range config.Agent {
 		if existingAgent.Name == agent.Name {
 			return config, errors.New("agent already exists: " + agent.Name)
 		}
 	}
 
-	config.Agents = append(config.Agents, agent)
+	config.Agent = append(config.Agent, agent)
 
 	return config, nil
 }

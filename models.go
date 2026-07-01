@@ -1,8 +1,8 @@
 package main
 
 type Config struct {
-	Projects []Project `json:"projects"`
-	Agents   []Agent   `json:"agents"`
+	Project []Project `json:"project"`
+	Agent   []Agent   `json:"agent"`
 }
 
 type Project struct {
